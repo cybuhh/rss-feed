@@ -1,3 +1,7 @@
+/* eslint-disable strict */
+
+'use strict';
+
 const rp = require('request-promise');
 const xml2js = require('xml2js');
 const xpath = require('xpath');

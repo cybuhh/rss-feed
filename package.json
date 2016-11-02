@@ -13,6 +13,9 @@
     "type": "git",
     "url": "git+https://github.com/cybuhh/rss-feed.git"
   },
+  "engines": {
+    "node": "6"
+  },
   "author": "cybuhh",
   "license": "ISC",
   "bugs": {
@@ -31,11 +34,12 @@
     "good": "^7.0.2",
     "good-winston": "^3.0.0",
     "hapi": "^12.1.0",
+    "inert": "^4.0.2",
     "promise-map-series": "^0.2.2",
     "redis": "^2.4.2",
     "request-promise": "^2.0.0",
-    "winston": "^2.2.0",
     "slimerjs": "^0.906.2",
+    "winston": "^2.2.0",
     "xml2js": "^0.4.16",
     "xmldom": "^0.1.22",
     "xpath": "0.0.21"

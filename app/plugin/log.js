@@ -1,3 +1,7 @@
+/* eslint-disable strict */
+
+'use strict';
+
 const good = require('good');
 
 /**
