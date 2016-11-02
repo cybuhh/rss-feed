@@ -1,33 +1,39 @@
-'use strict';
-
 const Hapi = require('hapi');
 const redis = require('redis');
+const dilbertRoute = require('./app/route/dilbert');
+const logPlugin = require('./app/plugin/log');
+const log = require('winston');
+const getEnvVar = require('get-env-var');
+const bluebird = require('bluebird');
 
-// Create a server with a host and port
-const server = new Hapi.Server();
+log.level = getEnvVar('LOG_LEVEL', 'error');
+
+bluebird.promisifyAll(redis.RedisClient.prototype);
+bluebird.promisifyAll(redis.Multi.prototype);
+
+const server = new Hapi.Server({ debug: { request: ['error', 'log'] } });
 server.connection({
-    port: process.env.PORT || 8000
+  port: process.env.PORT || 8000,
 });
 
 // Add the route
 server.route({
-    method: 'GET',
-    path: '/',
-    handler: function(request, reply) {
-        return reply('hello world');
-    }
+  method: 'GET',
+  path: '/',
+  handler: (request, reply) => reply('hello world'),
 });
 
-let redisClient;
+const redisClient = redis.createClient(process.env.REDIS_URL, { prefix: 'rss-feed:' });
+redisClient.on('error', log.error);
 
-redisClient = redis.createClient(process.env.REDIS_URL, { prefix: 'rss-feed:' });
-
-server.register({ register: require('./app/dilbert')(redisClient) });
+server.register(logPlugin(log))
+  .catch(log.error);
+server.route(dilbertRoute(redisClient));
 
 // Start the server
 server.start((err) => {
-    if (err) {
-        throw err;
-    }
-    console.info('Server running at:', server.info.uri);
+  if (err) {
+    throw err;
+  }
+  log.info('Server running at:', server.info.uri);
 });

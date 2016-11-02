@@ -20,15 +20,21 @@
   },
   "homepage": "https://github.com/cybuhh/rss-feed#readme",
   "devDependencies": {
-    "eslint": "1.10.3",
-    "eslint-config-vgno": "^5.0.0",
+    "eslint": "^3.9.1",
+    "eslint-config-airbnb-base": "^9.0.0",
+    "eslint-plugin-import": "^2.0.1",
     "mocha": "^2.4.5"
   },
   "dependencies": {
+    "bluebird": "^3.4.6",
+    "get-env-var": "^2.0.0",
+    "good": "^7.0.2",
+    "good-winston": "^3.0.0",
     "hapi": "^12.1.0",
     "promise-map-series": "^0.2.2",
     "redis": "^2.4.2",
     "request-promise": "^2.0.0",
+    "winston": "^2.2.0",
     "xml2js": "^0.4.16",
     "xmldom": "^0.1.22",
     "xpath": "0.0.21"
