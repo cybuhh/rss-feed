@@ -9,7 +9,8 @@ const Dom = require('xmldom').DOMParser;
 const mapSeries = require('promise-map-series');
 
 const js2xml = new xml2js.Builder({ cdata: true });
-const keyExpire = 60 * 60 * 24 * 9;
+const DAY = 60 * 60 * 24;
+const keyExpire = DAY * 9;
 
 /**
  *
@@ -98,7 +99,10 @@ const handler = redis => (request, reply) => {
   function entryTransform(xmlStr) {
     return mapSeries(xmlStr.feed.entry, el => (
       getImageUrl(el.id.toString().replace(/-/g, ''), el.link[0].$.href)
-      .then(imgUrl => Object.assign({}, el, { content: [{ _: `<img src="${imgUrl}" />` }] }))
+      .then(imgUrl => Object.assign({}, el, {
+        content: [{ _: `<img src="${imgUrl}" />` }],
+        description: [{ _: `<img src="${imgUrl}" />` }]
+      }))
     ))
     .then(feedEntries => js2xml.buildObject(Object.assign({},
         xmlStr, { feed: { entry: feedEntries } })));
