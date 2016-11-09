@@ -101,7 +101,8 @@ const handler = redis => (request, reply) => {
       getImageUrl(el.id.toString().replace(/-/g, ''), el.link[0].$.href)
       .then(imgUrl => Object.assign({}, el, {
         content: [{ _: `<img src="${imgUrl}" />` }],
-        description: [{ _: `<img src="${imgUrl}" />` }]
+        description: [{ _: `<img src="${imgUrl}" />` }],
+        'media:thumbnail': { $: { url: imgUrl } }
       }))
     ))
     .then(feedEntries => js2xml.buildObject(Object.assign({},
