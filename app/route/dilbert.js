@@ -100,9 +100,9 @@ const handler = redis => (request, reply) => {
     return mapSeries(xmlStr.feed.entry, el => (
       getImageUrl(el.id.toString().replace(/-/g, ''), el.link[0].$.href)
       .then(imgUrl => Object.assign({}, el, {
-        content: [{ _: `<img src="${imgUrl}" />` }],
-        description: [{ _: `<img src="${imgUrl}" />` }],
-        'media:thumbnail': { $: { url: imgUrl } }
+        content: [{ _: `${el.title} <img src="${imgUrl}" />` }],
+        description: [{ _: `${el.title} <img src="${imgUrl}" />` }],
+        'media:thumbnail': { $: { url: imgUrl } },
       }))
     ))
     .then(feedEntries => js2xml.buildObject(Object.assign({},
